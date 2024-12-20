@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))] // Button コンポーネントを必須化
 public class PauseButton : MonoBehaviour
 {
-    [SerializeField]
     private Button pauseButton;
 
     private bool isPausing;
@@ -26,9 +26,10 @@ public class PauseButton : MonoBehaviour
     [SerializeField]
     private Reticle reticle;
 
-    void Start ()
+    void Awake()
     {
         isPausing = true;
+        pauseButton = GetComponent<Button>();
         pauseButton.onClick.AddListener(OnClicked);
     }
 
@@ -57,6 +58,7 @@ public class PauseButton : MonoBehaviour
         }
     }
 
+    //=============UIを使う場合は削除===============
     public void OnClickSprite()
     {
         if (isPausing)
@@ -81,6 +83,7 @@ public class PauseButton : MonoBehaviour
             reticle.UseCursor(true);
         }
     }
+    //================================================
 
     private void Init ()
     {
