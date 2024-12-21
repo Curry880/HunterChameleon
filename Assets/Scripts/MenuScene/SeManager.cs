@@ -1,20 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SeManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private AudioSource audioSourceSE;
-    public AudioClip se;
+    private AudioSource audioSource;
 
-    public static SeManager Instance
-    {
-        get; private set;
-    }
+    public static SeManager Instance { get; private set; }
 
     void Awake()
     {
+        // シングルトンの初期化
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -22,15 +16,20 @@ public class SeManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // AudioSource コンポーネントの取得
+        audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
+    // 指定された効果音を再生
+    public void PlaySE(AudioClip clip)
     {
-        audioSourceSE = this.GetComponent<AudioSource>();
-    }
-
-    public void PlaySE()
-    {
-        audioSourceSE.PlayOneShot(se);
+        // AudioClip が null の場合は警告を表示
+        if (clip == null)
+        {
+            Debug.LogWarning("Attempted to play a null AudioClip.");
+            return;
+        }
+        audioSource.PlayOneShot(clip);
     }
 }

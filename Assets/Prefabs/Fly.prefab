@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3483564090942228413}
   m_Layer: 0
   m_Name: Fly
-  m_TagString: Target
+  m_TagString: Fly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,6 +120,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!60 &7198358526939321932
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -130,6 +131,25 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -157,6 +177,7 @@ PolygonCollider2D:
       - {x: 0.26, y: -0.12}
       - {x: 0.37, y: -0.03}
       - {x: 0.37, y: 0.24}
+  m_UseDelaunayMesh: 0
 --- !u!114 &3483564090942228413
 MonoBehaviour:
   m_ObjectHideFlags: 0

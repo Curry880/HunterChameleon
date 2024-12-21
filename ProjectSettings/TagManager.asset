@@ -8,6 +8,8 @@ TagManager:
   - Pause
   - Start
   - Tongue
+  - Apple
+  - Fly
   layers:
   - Default
   - TransparentFX

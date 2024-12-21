@@ -32,7 +32,7 @@ public class TimeKeeper : MonoBehaviour
     [SerializeField]
     private Reticle reticle;
     [SerializeField]
-    private Tongue tongue;
+    private CollisionHandler tongue;
 
     [SerializeField]
     private GameObject finishPanel;

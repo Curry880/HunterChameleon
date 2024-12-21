@@ -7,7 +7,7 @@ using TMPro;
 public class Reticle : MonoBehaviour
 {
     [SerializeField]
-    private Tongue tongue;
+    private TongueController tongue;
 
     [SerializeField]
     private SpriteRenderer reticleSpriteRenderer;

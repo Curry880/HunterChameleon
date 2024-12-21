@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class SceneTransitionButton : MonoBehaviour
 {
     [SerializeField] private SceneAsset sceneAsset; // 遷移先シーン
+    [SerializeField] private AudioClip se;
     [SerializeField] private bool playSE = true;
     private Button button;
 
@@ -16,22 +17,12 @@ public class SceneTransitionButton : MonoBehaviour
         button.onClick.AddListener(LoadScene);
     }
 
-    //========UIを使う場合削除===========
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Tongue"))
-        {
-            LoadScene();
-        }
-    }
-    //===================================
-
     public void LoadScene()
     {
         // SEを鳴らすかどうかをチェック
         if (playSE)
         {
-            SeManager.Instance.PlaySE();
+            SeManager.Instance.PlaySE(se);
         }
 
         // シーン遷移を実行

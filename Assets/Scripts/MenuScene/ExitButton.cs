@@ -1,18 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.InteropServices;
 
 public class ExitButton : MonoBehaviour
 {
-    private void Start ()
+    private void Start()
+    {
+        // WebGL環境ではボタンを無効化する
+        DisableForWebGL();
+    }
+
+    public void OnClicked()
+    {
+        // エディタまたは非WebGL環境でアプリを終了する処理を呼び出す
+        HandleExit();
+    }
+
+    private void DisableForWebGL()
     {
         #if UNITY_WEBGL
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         #endif
     }
 
-    public void OnClicked ()
+    private void HandleExit()
     {
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

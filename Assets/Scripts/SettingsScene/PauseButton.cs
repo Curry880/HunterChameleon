@@ -13,6 +13,7 @@ public class PauseButton : MonoBehaviour
     [SerializeField]
     private Sprite[] buttonSprites = new Sprite[2];
 
+    //=======ポーズしたときに止めたいものたち===========
     [SerializeField]
     private GameObject parameterPanel;
 
@@ -22,9 +23,10 @@ public class PauseButton : MonoBehaviour
     [SerializeField]
     private TargetManager targetManager;
     [SerializeField]
-    private Tongue tongue;
+    private TongueController tongue;
     [SerializeField]
     private Reticle reticle;
+    //=======ポーズしたときに止めたいものたち===========
 
     void Awake()
     {
