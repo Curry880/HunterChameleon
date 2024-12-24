@@ -1,0 +1,94 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class GameManager : MonoBehaviour
+{
+    public static bool isPlaying;
+
+    private float playTime;
+
+    [SerializeField]
+    private Sun sun;
+
+    [SerializeField]
+    private TargetManager targetManager;
+
+    [SerializeField]
+    private GameObject countDown;
+    private TextMeshProUGUI countDownText;
+    [SerializeField]
+    private GameObject finish;
+
+    [SerializeField]
+    private GameObject bgm;
+
+    // ÉfÅ[É^ä«óù
+    [SerializeField]
+    private DataManager dataManager;
+    [SerializeField]
+    private Score score;
+    [SerializeField]
+    private Reticle reticle;
+    [SerializeField]
+    private CollisionHandler tongue;
+
+    [SerializeField]
+    private GameObject finishPanel;
+
+    void Start()
+    {
+        reticle.UseCursor(false);
+    }
+
+    public void GameStart()
+    {
+        isPlaying = false;
+        playTime = ParameterManager.playTime;
+        countDownText = countDown.GetComponent<TextMeshProUGUI>();
+        StartCoroutine(StartCountDown());
+    }
+
+    private IEnumerator StartCountDown()
+    {
+        yield return new WaitForSeconds(1);
+        countDown.SetActive(true);
+        yield return new WaitForSeconds(1);
+        countDownText.text = "2";
+        yield return new WaitForSeconds(1);
+        countDownText.text = "1";
+        yield return new WaitForSeconds(1);
+        isPlaying = true;
+        countDownText.text = "START!";
+        targetManager.StartSpawn();
+        sun.StartSunMove();
+        yield return new WaitForSeconds(1);
+        StartCoroutine(KeepTime());
+        bgm.SetActive(true);
+        countDown.SetActive(false);
+        yield break;
+    }
+
+    private IEnumerator KeepTime()
+    {
+        yield return new WaitForSeconds(playTime);
+        finish.SetActive(true);
+        bgm.SetActive(false);
+        Finish();
+        yield return new WaitForSeconds(2);
+        finishPanel.SetActive(true);
+        bgm.SetActive(true);
+        yield break;
+    }
+
+    private void Finish()
+    {
+        reticle.UseCursor(true);
+
+        isPlaying = false;
+        targetManager.StopSpawn();
+        finishPanel.GetComponent<FinishPanel>().SetResult(score.scoreNum, tongue.hitNum, reticle.triggerNum);
+        dataManager.postData(score.scoreNum, tongue.hitNum, reticle.triggerNum);
+    }
+}

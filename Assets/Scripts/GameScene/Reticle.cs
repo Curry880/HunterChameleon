@@ -9,18 +9,32 @@ public class Reticle : MonoBehaviour
     [SerializeField]
     private TongueController tongue;
 
-    [SerializeField]
-    private SpriteRenderer reticleSpriteRenderer;
-    [SerializeField]
-    private SpriteRenderer reticleOutlineSpriteRenderer;
+    [SerializeField] TextMeshProUGUI debugText;
 
     [System.NonSerialized]
     public int triggerNum;
 
     private Vector2 preMousePosition;
+    private bool useMouse = true;
 
     private int gamepadSensitivity;
     private int mouseSensitivity;
+    private List<SpriteRenderer> reticleSpriteRenderers = new List<SpriteRenderer>();
+
+    private void Awake()
+    {
+        Debug.Log(reticleSpriteRenderers);
+        Debug.Log(GetComponent<SpriteRenderer>());
+        reticleSpriteRenderers.Add(GetComponent<SpriteRenderer>());
+        foreach (Transform child in transform)
+        {
+            SpriteRenderer spriteRenderer = child.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                reticleSpriteRenderers.Add(spriteRenderer);
+            }
+        }
+    }
 
     void Start()
     {
@@ -28,26 +42,13 @@ public class Reticle : MonoBehaviour
         preMousePosition = (Mouse.current).position.ReadValue();
     }
 
-    Vector2 vec;
-    private bool useMouse = true;
+    
 
-    [SerializeField] TextMeshProUGUI debugText;
-
-    public void UseCursor(bool enable)
+    public void SetCursorVisibility(bool isVisible)
     {
-        if (enable) //use cursor
-        {
-            useMouse = true;
-
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            useMouse = false;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        useMouse = isVisible;
+        Cursor.visible = isVisible;
+        Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     void Update()
@@ -84,47 +85,52 @@ public class Reticle : MonoBehaviour
 
             preMousePosition = mouseInput.position.ReadValue();
         }
-        
-        if (Gamepad.current != null)
+
+        UpdateDebugText();
+    }
+
+    private void ProcessGamepadInput()
+    {
+        if (Gamepad.current == null) {  return; }
+        var gamepadInput = Gamepad.current;
+        var gamepadSouthButton = gamepadInput.buttonSouth;
+        var gamepadDpad = gamepadInput.dpad.ReadValue();
+        var gamepadLeftStick = gamepadInput.leftStick.ReadValue();
+
+        if (gamepadDpad != Vector2.zero)
         {
-            var gamepadInput = Gamepad.current;
-            var gamepadSouthButton = gamepadInput.buttonSouth;
-            var gamepadDpad = gamepadInput.dpad.ReadValue();
-            var gamepadLeftStick = gamepadInput.leftStick.ReadValue();
-
-            if (gamepadDpad != Vector2.zero)
-            {
-                var currentPosition = this.transform.position;
-                this.transform.position = new Vector3(Mathf.Clamp(currentPosition.x + gamepadDpad.x * gamepadSensitivity * 2 * Time.deltaTime, -9.0f, 9.0f), Mathf.Clamp(currentPosition.y + gamepadDpad.y * gamepadSensitivity * 2 * Time.deltaTime, -3.5f, 5.0f), 1.0f);
-            }
-
-            if (gamepadLeftStick != Vector2.zero)
-            {
-                var currentPosition = this.transform.localPosition;
-                this.transform.localPosition = new Vector3(Mathf.Clamp(currentPosition.x + gamepadLeftStick.x * gamepadSensitivity * 2 * Time.deltaTime, -9.0f, 9.0f), Mathf.Clamp(currentPosition.y + gamepadLeftStick.y * gamepadSensitivity * 2 * Time.deltaTime, -3.5f, 5.0f), 1.0f);
-            }
-
-            if (gamepadSouthButton.wasPressedThisFrame)
-            {
-                this.trigger();
-            }
+            var currentPosition = this.transform.position;
+            this.transform.position = new Vector3(Mathf.Clamp(currentPosition.x + gamepadDpad.x * gamepadSensitivity * 2 * Time.deltaTime, -9.0f, 9.0f), Mathf.Clamp(currentPosition.y + gamepadDpad.y * gamepadSensitivity * 2 * Time.deltaTime, -3.5f, 5.0f), 1.0f);
         }
 
+        if (gamepadLeftStick != Vector2.zero)
+        {
+            var currentPosition = this.transform.localPosition;
+            this.transform.localPosition = new Vector3(Mathf.Clamp(currentPosition.x + gamepadLeftStick.x * gamepadSensitivity * 2 * Time.deltaTime, -9.0f, 9.0f), Mathf.Clamp(currentPosition.y + gamepadLeftStick.y * gamepadSensitivity * 2 * Time.deltaTime, -3.5f, 5.0f), 1.0f);
+        }
+
+        if (gamepadSouthButton.wasPressedThisFrame)
+        {
+            this.trigger();
+        }
+    }
+
+    // デバッグテキストの更新
+    private void UpdateDebugText()
+    {
         if (debugText != null)
         {
-
             debugText.text = Cursor.lockState.ToString();
         }
-
     }
 
     private void trigger ()
     {
-        if (TimeKeeper.isPlaying)
+        if (GameManager.isPlaying)
         {
             triggerNum++;
         }
-        Vector3 temp = this.transform.position;
+        Vector3 temp = transform.position;
         temp.z = 0;
         StartCoroutine(tongue.Shoot(temp));
     }
@@ -133,17 +139,14 @@ public class Reticle : MonoBehaviour
     {
         gamepadSensitivity = ParameterManager.gamepadSensitivity;
         mouseSensitivity = ParameterManager.mouseSensitivity;
-        reticleSpriteRenderer.color = new Color32(
-            (byte)ParameterManager.tongueColorRed, 
-            (byte)ParameterManager.tongueColorGreen, 
-            (byte)ParameterManager.tongueColorBlue,
-            (byte)ParameterManager.tongueColorAlpha
-        );
-        reticleOutlineSpriteRenderer.color = new Color32(
-            (byte)ParameterManager.tongueColorRed, 
-            (byte)ParameterManager.tongueColorGreen, 
-            (byte)ParameterManager.tongueColorBlue,
-            (byte)ParameterManager.tongueColorAlpha
-        );
+        foreach(SpriteRenderer reticleSpriteRenderer in reticleSpriteRenderers)
+        {
+            reticleSpriteRenderer.color = new Color32(
+                (byte)ParameterManager.tongueColorRed,
+                (byte)ParameterManager.tongueColorGreen,
+                (byte)ParameterManager.tongueColorBlue,
+                (byte)ParameterManager.tongueColorAlpha
+            );
+        }
     }
 }

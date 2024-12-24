@@ -154,8 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tongue: {fileID: 675671445}
-  reticleSpriteRenderer: {fileID: 66909594}
-  reticleOutlineSpriteRenderer: {fileID: 387801011}
   debugText: {fileID: 0}
 --- !u!212 &66909594
 SpriteRenderer:
@@ -217,7 +215,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 66909592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0028466443, y: 0.00067777245, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children:
