@@ -132,7 +132,7 @@ public class Reticle : MonoBehaviour
         }
         Vector3 temp = transform.position;
         temp.z = 0;
-        StartCoroutine(tongue.Shoot(temp));
+        tongue.Shoot(temp);
     }
 
     public void Init ()

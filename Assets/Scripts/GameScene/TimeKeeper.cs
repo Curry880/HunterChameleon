@@ -39,7 +39,7 @@ public class TimeKeeper : MonoBehaviour
 
     void Start()
     {
-        reticle.UseCursor(false);
+        reticle.SetCursorVisibility(false);
     }
 
     public void GameStart()
@@ -84,7 +84,7 @@ public class TimeKeeper : MonoBehaviour
 
     private void Finish()
     {
-        reticle.UseCursor(true);
+        reticle.SetCursorVisibility(true);
 
         isPlaying = false;
         targetManager.StopSpawn();

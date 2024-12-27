@@ -1288,6 +1288,8 @@ GameObject:
   - component: {fileID: 675671450}
   - component: {fileID: 675671446}
   - component: {fileID: 675671445}
+  - component: {fileID: 675671452}
+  - component: {fileID: 675671451}
   - component: {fileID: 675671449}
   - component: {fileID: 675671448}
   - component: {fileID: 675671447}
@@ -1310,7 +1312,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89066f83bf90d414a8b38750e99197ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootSound: {fileID: 8300000, guid: f37f074a6677944d0b75996743a76f3f, type: 3}
 --- !u!212 &675671446
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1536,6 +1537,31 @@ Transform:
   m_Father: {fileID: 562444583}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &675671451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675671444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6868654c37976d141b06adcded981590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootSound: {fileID: 8300000, guid: f37f074a6677944d0b75996743a76f3f, type: 3}
+--- !u!114 &675671452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675671444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8be988e058f1f684da54ff101f9566a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &814459691
 GameObject:
   m_ObjectHideFlags: 0

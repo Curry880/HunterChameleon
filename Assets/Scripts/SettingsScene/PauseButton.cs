@@ -46,7 +46,7 @@ public class PauseButton : MonoBehaviour
             parameterPanel.SetActive(false);
             targetManager.StartSpawn();
 
-            reticle.UseCursor(false);
+            reticle.SetCursorVisibility(false);
         }
         else
         {
@@ -56,7 +56,7 @@ public class PauseButton : MonoBehaviour
             parameterPanel.SetActive(true);
             targetManager.StopSpawn();
 
-            reticle.UseCursor(true);
+            reticle.SetCursorVisibility(true);
         }
     }
 
@@ -72,7 +72,7 @@ public class PauseButton : MonoBehaviour
             parameterPanel.SetActive(false);
             targetManager.StartSpawn();
 
-            reticle.UseCursor(false);
+            reticle.SetCursorVisibility(false);
         }
         else
         {
@@ -82,7 +82,7 @@ public class PauseButton : MonoBehaviour
             parameterPanel.SetActive(true);
             targetManager.StopSpawn();
 
-            reticle.UseCursor(true);
+            reticle.SetCursorVisibility(true);
         }
     }
     //================================================

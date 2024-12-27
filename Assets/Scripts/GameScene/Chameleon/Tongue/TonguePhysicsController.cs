@@ -1,36 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class TongueController : MonoBehaviour
+public class TonguePhysicsController : MonoBehaviour
 {
-    [SerializeField]
-    private AudioClip shootSound;
-
-    private AudioSource audioSource;
-    SpriteRenderer tongueSpriteRenderer;
     private int tongueSpeed;
     private bool isShooting;
     private float scaleY;
-    private TongueState tongueState;
-
     private float InitialScaleY;
+    private TongueState tongueState;
 
     private enum TongueState
     {
-        Extending = 1, // L‚Ñ‚Ä‚¢‚éó‘Ô
+        Extending = 1,  // L‚Ñ‚Ä‚¢‚éó‘Ô
         Retracting = -1 // k‚ñ‚Å‚¢‚éó‘Ô
-    }
-
-    private void Awake()
-    {
-        InitialScaleY = transform.localScale.y;
-        audioSource = GetComponent<AudioSource>();
-        tongueSpriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
-    void Start()
-    {
-        Init();
     }
 
     public IEnumerator Shoot(Vector3 triggeredPosition)
@@ -38,11 +20,10 @@ public class TongueController : MonoBehaviour
         if (isShooting) { yield break; }
 
         PrepareShot(triggeredPosition);
-        audioSource.PlayOneShot(shootSound);
 
         float distance = Vector3.Distance(transform.position, triggeredPosition);
-          
-        while (UpdateTongueScale(distance))    
+
+        while (UpdateTongueScale(distance))
         {
             yield return null;
         }
@@ -68,12 +49,12 @@ public class TongueController : MonoBehaviour
         if (tongueState == TongueState.Extending && scaleY >= distance)
         {
             tongueState = TongueState.Retracting;
-            scaleY = distance; // ‹——£‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            scaleY = distance;
         }
         else if (tongueState == TongueState.Retracting && scaleY <= InitialScaleY)
         {
             isShooting = false;
-            scaleY = InitialScaleY; // Å¬ƒXƒP[ƒ‹‚ğ’´‚¦‚È‚¢‚æ‚¤‚É‚·‚é
+            scaleY = InitialScaleY;
             localScale = transform.localScale;
             localScale.y = scaleY;
             transform.localScale = localScale;
@@ -96,12 +77,12 @@ public class TongueController : MonoBehaviour
 
     public void Init()
     {
-        tongueSpriteRenderer.color = new Color32(
-            (byte)ParameterManager.tongueColorRed, 
-            (byte)ParameterManager.tongueColorGreen, 
-            (byte)ParameterManager.tongueColorBlue,
-            (byte)ParameterManager.tongueColorAlpha
-        );
+        InitialScaleY = transform.localScale.y;
+        ResetState();
+    }
+
+    public void ResetState()
+    {
         tongueSpeed = ParameterManager.tongueSpeed * 10;
         isShooting = false;
         scaleY = InitialScaleY;
